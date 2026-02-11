@@ -12,21 +12,32 @@ namespace Sortowanie_przez_wstawianie
         public static int[] Sort(int[] InArray)
         {
             int[] OutArray = new int[InArray.Length];
-            for (int i = 0; i < OutArray.Length; i++)
-            {
-                OutArray[i] = int.MaxValue;
-            }
-
+            
             OutArray[0] = InArray[0];
-            for (int i = 1; i < InArray.Length - 1; i++)
+
+            for (int i = 1; i < InArray.Length; i++)
             {
-                for (int j = i; j < InArray.Length - 1; j++)
+                int current = InArray[i];
+                bool inserted = false;
+
+                for (int j = 0; j < i; j++)
                 {
-                    if (InArray[i] < OutArray[j])
+                    if (current < OutArray[j])
                     {
-                        OutArray[j - 1] = InArray[i];
+                        for(int l = i - 1; l >= j; l--)
+                        {
+                            int temp = OutArray[l + 1];
+                            OutArray[l + 1] = OutArray[l];
+                            OutArray[l] = temp;
+                        }
+   
+                        OutArray[j] = current;
+                        inserted = true;
+                        break;
                     }
                 }
+
+                if (!inserted) OutArray[i] = current;
             }
 
             return OutArray;
